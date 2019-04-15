@@ -1,0 +1,89 @@
+<!doctype html>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../../../../static/style.css">
+<title>Serving Static Website files from a Raspberry Pi - nginx — 0xc4d4</title>
+<body>
+  <header>
+    <h1>0xc4d4</h1>
+    <nav>
+      <ul class="nav navbar-nav">
+        <li><a href="../../../../">Welcome</a></li>
+        
+          <li class="active"><a href="../../../../blog/">Blog</a></li>
+        
+          <li><a href="../../../../projects/">Projects</a></li>
+        
+          <li><a href="../../../../about/">About</a></li>
+        
+      </ul>
+    </nav>
+  </header>
+  <div class="page">
+    
+  
+  <div class="blog-post">
+  
+    <h2>Serving Static Website files from a Raspberry Pi - nginx</h2>
+  
+  <p class="meta">
+    written by
+    
+      <a href="https://twitter.com/0xc4d4">0xc4d4</a>
+    
+    on 2018-02-19
+  </p>
+  <p>Serving up your Static website on the Raspberry Pi is a relatively straightforward task when you leverage a simple web server.</p>
+<p>For this purpose I have used <em>nginx</em> due to my happy experiences with it before. 
+I'd found it to be a very fast web server and one of the simplest I've experienced in terms of setup.</p>
+<p>Any static website will do, if you want to try a Python based <strong>Static Content Management System</strong> to generate the site, have a look at the <a href="../../../../blog/2018/2/a-simple-website-running-on-raspberry-pi/">previous post on using Lektor</a></p>
+<p>This page also assumes your website content resides on your Pi at <code>~/web-dev/0xc4d4.github.io</code> (see <a href="../../../../blog/2018/2/lektor-publish/">here</a> for the lektor publish summary if your using that)</p>
+<p>However, a single <strong>hello world</strong> type html page will do !</p>
+<p>So, get the <em>nginx</em> web server first (alternatives might be lighttpd (lighty), apache, etc )</p>
+<pre><code class="lang-bash">  sudo apt-get install nginx
+</code></pre>
+<p>Now go to the nginx <strong>available configurations</strong> folder and tell it how to serve up your static data by pointing it to the folder it resides in</p>
+<pre><code class="lang-bash">cd /etc/nginx/sites-available/
+sudo cp default default.0xc4d4.github.io 
+sudo pico default.0xc4d4.github.io
+</code></pre>
+<p>(vi or any other editor will do, I assume pico is easier for beginners)</p>
+<p>Set the content of the file as follows. Note the major pieces are</p>
+<ol>
+<li>the <em>listen</em> configurations, I set it to port 81, but you can leave it at port 80 for simplicity</li>
+<li>the <em>root</em> configuration, which refers to the folder where your website files are.</li>
+</ol>
+<pre><code class="lang-bash">server {
+    listen 81 default_server;
+    listen [::]:81 default_server;
+
+    root /home/pi/dev-web/0xc4d4.github.io/;
+
+    index index.html index.htm
+
+    server_name _;
+
+    location / {
+        try_files $uri $uri/ =404;
+    }
+}
+</code></pre>
+<p>Now, to enable this new configuration so <em>nginx</em> present it when asked, we have to make this configuration available in the <em>sites-enabled</em> folder. Instead of copying it, we can just <strong>link</strong> it:</p>
+<pre><code class="lang-bash">cd ../sites-enabled
+sudo ln -s ../sites-available/default.0xc4d4.github.io
+</code></pre>
+<p>Then just restart the web server with:</p>
+<pre><code class="lang-bash">sudo service nginx stop
+sudo service nginx start
+</code></pre>
+<p>And point your web browser to http://&lt;the Raspberry Pi's ip address :D&gt;:81/
+(e.g. <a href="http://192.168.1.4:81/">http://192.168.1.4:81/</a> )</p>
+<p>For a static, mostly text, website, the responsiveness is excellent on my Raspberry Pi model B served to my laptop over 5G WiFi at a distance of &lt;10m.</p>
+
+  </div>
+
+
+  </div>
+  <footer>
+    &copy; Copyright 2018 by 0xc4d4.
+  </footer>
+</body>

@@ -1,0 +1,83 @@
+<!doctype html>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../../../../static/style.css">
+<title>A Simple Website running on Raspberry Pi! — 0xc4d4</title>
+<body>
+  <header>
+    <h1>0xc4d4</h1>
+    <nav>
+      <ul class="nav navbar-nav">
+        <li><a href="../../../../">Welcome</a></li>
+        
+          <li class="active"><a href="../../../../blog/">Blog</a></li>
+        
+          <li><a href="../../../../projects/">Projects</a></li>
+        
+          <li><a href="../../../../about/">About</a></li>
+        
+      </ul>
+    </nav>
+  </header>
+  <div class="page">
+    
+  
+  <div class="blog-post">
+  
+    <h2>A Simple Website running on Raspberry Pi!</h2>
+  
+  <p class="meta">
+    written by
+    
+      <a href="https://twitter.com/0xc4d4">0xC4D4</a>
+    
+    on 2018-02-17
+  </p>
+  <p>So I have an old Raspberry Pi that's been sitting in a drawer for a couple of years.</p>
+<p>I want to try out some simple website, a static set of pages, but preferably with something that helps manage pages / partials and style, in a CMS kind of way. But without dynamic page generation, i want to deploy the site simple on the Pi, or any hosting provider without having to worry about database installs, CMS installs and all the updates and security patching that goes with it.</p>
+<h3>Setting up the Pi</h3>
+<p>I downloaded RASPBIAN STRETCH LITE from <a href="https://www.raspberrypi.org/downloads/raspbian/">here</a> (file: <code>2017-11-29-raspbian-stretch-lite.img</code> )</p>
+<p>Then I wrote to an SD-Card with dd command via <a href="https://www.raspberrypi.org/documentation/installation/installing-images/README.md">the Installation Guide</a> and following the <a href="https://www.raspberrypi.org/documentation/installation/installing-images/mac.md">Mac "command line" instructions</a> on my old second hand 2011 macbook air</p>
+<p>When the Pi is booted, the image will re-size itself to use all of the free space on the SD Card (my card was 4GB), then  it will restart itself.</p>
+<p>You can log-in to the <em>Pi</em> with <code>user = pi</code> and <code>password = raspberry</code></p>
+<h3>Getting a simple static web-site generator</h3>
+<p>I had a look at <a href="../../../../blog/2018/2/static-web-managers/">a couple of static website managers</a>, focusing on python which is supported on the Pi out of the box.</p>
+<p>I had a little trouble with them and didn't spend much time trying to resolve until I found Lektor which was the first one I saw that also boasted a CMS-like interface - very cool!</p>
+<p>First I got some of the python bits</p>
+<pre><code class="lang-bash">sudo apt-get install python python-dev python-pip
+</code></pre>
+<p>Then I got a few more as the PIP install of Lektor was failing with a reference unfound : <code>c/_cffi_backend.c:15:17: fatal error: ffi.h: No such file or directory</code></p>
+<pre><code class="lang-bash">sudo apt-get install libssl-dev build-essential libffi-dev
+</code></pre>
+<p>I'd read <a href="https://github.com/thanethomson/statik/wiki/Installation">somewhere</a> that using <strong>virtualenv</strong> in Python can be a good idea as it supports you to have various versions of packages installed on your system that don't interfere with each other, so now that we had installed the <code>python-pip</code> package manager I went and got it and</p>
+<ul>
+<li>set up a folder for the project</li>
+<li>created virtual env there &amp; activated</li>
+<li>grabbed lektor</li>
+<li>set up a default lektor site</li>
+<li>sudo pip install virtualenv</li>
+</ul>
+<pre><code class="lang-bash">mkdir ~/dev-web
+mkdir ~/dev-web/lektor-0xc4d4
+cd    ~/dev-web/lektor-0xc4d4
+
+virtualenv .
+source bin/activate
+pip install --upgrade pip
+pip install lektor
+
+lektor quickstart
+</code></pre>
+<p>For the lektor install, I chose <code>&gt; Add Basic Blog [Y/n]: y</code> and then was able to spin up the test/edit server for the CMS type interface and get editing right away !</p>
+<pre><code class="lang-bash">cd &lt;project name&gt;
+lektor server -p 5000 -h &lt;the Raspberry Pi&#39;s ip address :D&gt;
+</code></pre>
+<p>And there you go, a python based, CMS interface supported website on Raspberry Pi, come back later when I have more info on <a href="../../../../blog/2018/2/lektor-publish/">publishing the site with lektor</a> and <a href="../../../../blog/2018/2/serving-a-static-website-on-a-raspberry-pi/">serving up the static output on your pi</a>.</p>
+
+  </div>
+
+
+  </div>
+  <footer>
+    &copy; Copyright 2018 by 0xc4d4.
+  </footer>
+</body>

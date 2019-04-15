@@ -1,0 +1,59 @@
+<!doctype html>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../../../../static/style.css">
+<title>Publish Static Website files to a folder with Lektor — 0xc4d4</title>
+<body>
+  <header>
+    <h1>0xc4d4</h1>
+    <nav>
+      <ul class="nav navbar-nav">
+        <li><a href="../../../../">Welcome</a></li>
+        
+          <li class="active"><a href="../../../../blog/">Blog</a></li>
+        
+          <li><a href="../../../../projects/">Projects</a></li>
+        
+          <li><a href="../../../../about/">About</a></li>
+        
+      </ul>
+    </nav>
+  </header>
+  <div class="page">
+    
+  
+  <div class="blog-post">
+  
+    <h2>Publish Static Website files to a folder with Lektor</h2>
+  
+  <p class="meta">
+    written by
+    
+      <a href="https://twitter.com/0xc4d4">0xc4d4</a>
+    
+    on 2018-02-18
+  </p>
+  <h3>For Github Pages Hosting, some setup needed</h3>
+<ul>
+<li>get a github pages site by creating a github repository called <code>&lt;username&gt;.github.io</code>, I got <code>0xc4d4.github.io</code></li>
+<li>clone that on your machine, I assume to <code>~/web-dev/0xc4d4.github.io</code></li>
+</ul>
+<h3>Publish your Lektor CMS website to static HTML etc</h3>
+<ul>
+<li><code>cd &lt;your lektor project folder&gt;</code>  </li>
+<li><code>lektor build --output-path ~/web-dev/0xc4d4.github.io</code> </li>
+</ul>
+<h3>Push your Static output up to GitHub so it's there to be hosted</h3>
+<ul>
+<li><code>cd ~/web-dev/0xc4d4.github.io</code></li>
+<li><code>git add; git commit -m ' published ' ; git push origin master</code> </li>
+<li>checked it out at <code>http://&lt;username&gt;.github.io</code>, e.g. <a href="http://0xc4d4.github.io">http://0xc4d4.github.io</a></li>
+</ul>
+
+  </div>
+
+
+  </div>
+  <footer>
+    &copy; Copyright 2018 by 0xc4d4.
+  </footer>
+</body>
